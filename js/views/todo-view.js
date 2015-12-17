@@ -47,6 +47,7 @@ var app = app || {};
 			if (this.model.changed.id !== undefined) {
 				return;
 			}
+			//console.log(this.$el);
 
 			this.$el.html(this.template(this.model.toJSON()));
 			this.$el.toggleClass('completed', this.model.get('completed'));
@@ -67,7 +68,13 @@ var app = app || {};
 
 		// Toggle the `"completed"` state of the model.
 		toggleCompleted: function () {
+
 			this.model.toggle();
+			var completedValue = this.$input.val() + '--done';
+			var uncompletedValue = this.$input.val().slice(0,-6);
+			return this.model.get('completed') ?
+				this.model.save({ title: completedValue }) :
+				this.model.save({ title: uncompletedValue});
 		},
 
 		// Switch this view into `"editing"` mode, displaying the input field.

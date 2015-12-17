@@ -18,6 +18,7 @@ var app = app || {};
 
 		// Toggle the `completed` state of this todo item.
 		toggle: function () {
+			console.log(this.get);
 			this.save({
 				completed: !this.get('completed')
 			});
