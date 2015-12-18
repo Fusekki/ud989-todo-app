@@ -18,7 +18,7 @@ var app = app || {};
 		// The DOM events specific to an item.
 		events: {
 			'click .toggle': 'toggleCompleted',
-			'click .priority-btn': 'prioritize',
+			'click .priority-btn': 'togglePriority',
 			'dblclick label': 'edit',
 			'click .edit-btn': 'edit',
 			'click .destroy': 'clear',
@@ -35,7 +35,6 @@ var app = app || {};
 			this.listenTo(this.model, 'change', this.render);
 			this.listenTo(this.model, 'destroy', this.remove);
 			this.listenTo(this.model, 'visible', this.toggleVisible);
-			this.listenTo(this.model, 'prioritize', this.prioritize);
 		},
 
 		// Re-render the titles of the todo item.
@@ -54,6 +53,7 @@ var app = app || {};
 
 			this.$el.html(this.template(this.model.toJSON()));
 			this.$el.toggleClass('completed', this.model.get('completed'));
+			this.$el.toggleClass('priority', this.model.get('priority'));
 			this.toggleVisible();
 			this.$input = this.$('.edit');
 			return this;
@@ -80,15 +80,17 @@ var app = app || {};
 				this.model.save({ title: uncompletedValue});
 		},
 
+		// Toggle the "priority" state of the model.
+		togglePriority: function() {
+			this.model.togglePriority();
+		},
+
 		// Switch this view into `"editing"` mode, displaying the input field.
 		edit: function () {
 			this.$el.addClass('editing');
 			this.$input.focus();
 		},
 
-		prioritize: function() {
-			this.$el.toggleClass('priority');
-		},
 
 		// Close the `"editing"` mode, saving changes to the todo.
 		close: function () {
