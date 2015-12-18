@@ -18,6 +18,7 @@ var app = app || {};
 		// The DOM events specific to an item.
 		events: {
 			'click .toggle': 'toggleCompleted',
+			'click .priority-btn': 'prioritize',
 			'dblclick label': 'edit',
 			'click .edit-btn': 'edit',
 			'click .destroy': 'clear',
@@ -34,6 +35,7 @@ var app = app || {};
 			this.listenTo(this.model, 'change', this.render);
 			this.listenTo(this.model, 'destroy', this.remove);
 			this.listenTo(this.model, 'visible', this.toggleVisible);
+			this.listenTo(this.model, 'prioritize', this.prioritize);
 		},
 
 		// Re-render the titles of the todo item.
@@ -82,6 +84,10 @@ var app = app || {};
 		edit: function () {
 			this.$el.addClass('editing');
 			this.$input.focus();
+		},
+
+		prioritize: function() {
+			this.$el.toggleClass('priority');
 		},
 
 		// Close the `"editing"` mode, saving changes to the todo.
@@ -136,5 +142,6 @@ var app = app || {};
 		clear: function () {
 			this.model.destroy();
 		}
+
 	});
 })(jQuery);
